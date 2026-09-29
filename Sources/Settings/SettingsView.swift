@@ -762,7 +762,7 @@ struct SettingsView: View {
                 }
                 // Beside the switches it explains, not stranded at the end of
                 // the page.
-                Text(L10n.t("Most readings are borrowed from a tool that already holds the account. DeepSeek and MiniMax are the exceptions: clicking Sign in opens a Codenotch window for that account, and signing out here clears only that session and its saved reading."))
+                Text(L10n.t("Most readings are borrowed from a tool that already holds the account. DeepSeek, MiniMax, QianwenAI and Notion AI are the exceptions: clicking Sign in opens a Codenotch window for that account, and signing out here clears only that session and its saved reading."))
                     .font(.caption)
                     .foregroundStyle(.tertiary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -2072,6 +2072,22 @@ private struct AccountRow: View {
                 minimaxEntry
             }
 
+            if provider.id == "notion" {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(L10n.t("Notion workspace ID (optional)"))
+                    HStack {
+                        TextField(L10n.t("Automatic"), text: $notionWorkspaceID)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 300)
+                        Button(L10n.t("Save")) {
+                            preferences.notionWorkspaceID = notionWorkspaceID.trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                    }
+                    Text(L10n.t("Leave blank to use the first Business or Enterprise workspace. Sign in here, then close the sign-in window. Tracks Notion AI allowances, not Custom Agent credits."))
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                .onAppear { notionWorkspaceID = preferences.notionWorkspaceID }
+            }
             // Apify borrows the CLI's login when there is one; the token
             // pasted here is for a Mac without it. Stored in the keychain on
             // Save, the same way Ollama's is.
@@ -2080,6 +2096,8 @@ private struct AccountRow: View {
             }
         }
     }
+
+    @State private var notionWorkspaceID = ""
 
     /// The API key input for Ollama. Stored in the keychain on Save, then a
     /// refresh is triggered so the ring picks up the new credential without a

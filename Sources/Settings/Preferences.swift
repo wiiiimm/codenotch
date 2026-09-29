@@ -463,6 +463,10 @@ final class Preferences: ObservableObject {
     /// International and China mainland are different hosts, and a key issued
     /// on one is refused by the other. Absent means never chosen, which is
     /// international.
+    @Published var notionWorkspaceID: String {
+        didSet { defaults.set(notionWorkspaceID, forKey: "notionWorkspaceID") }
+    }
+
     @Published var minimaxRegion: MiniMaxRegion {
         didSet { defaults.set(minimaxRegion.rawValue, forKey: Keys.minimaxRegion) }
     }
@@ -909,6 +913,7 @@ final class Preferences: ObservableObject {
         self.limitReachedSoundName = defaults.string(forKey: Keys.limitReachedSoundName)
             ?? SessionChime.defaultBlocked
         self.geminiAPIMonthlyTokenBudget = Self.storedGeminiAPIMonthlyTokenBudget(defaults: defaults)
+        self.notionWorkspaceID = defaults.string(forKey: "notionWorkspaceID") ?? ""
         self.minimaxRegion = Self.storedMinimaxRegion(defaults: defaults)
         if let data = defaults.data(forKey: Keys.customEndpoints),
            let list = try? JSONDecoder().decode([CustomEndpoint].self, from: data) {

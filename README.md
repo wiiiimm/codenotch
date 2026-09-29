@@ -19,6 +19,11 @@ Hover a ring for its limit windows and when they reset. Claude's ring shows the
 same **current session** window Claude Code's own `/usage` leads with, so the
 two never disagree.
 
+## Notion AI
+
+On macOS, enable **Notion AI** in Settings → Accounts and sign in to track
+rolling and monthly allowances. See the [setup and workspace guide](docs/providers/notion.md).
+
 ## Download
 
 [![Download for macOS](docs/design/download-macos.svg)](../../releases/latest/download/Codenotch.dmg)
