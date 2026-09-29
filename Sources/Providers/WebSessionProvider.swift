@@ -349,7 +349,7 @@ final class WebSessionProvider: NSObject, UsageProvider {
         // Not for sites whose response carries account details beyond the
         // numbers: DeepSeek's, and QianwenAI's console envelope, whose other
         // fields are undocumented.
-        if ["deepseek", "qianwenai"].contains(site.id) {
+        if ["deepseek", "qianwenai", "notion"].contains(site.id) {
             Log.usage.notice("\(self.site.id, privacy: .public) usage response received")
         } else {
             Log.usage.notice("\(self.site.id, privacy: .public) usage -> \(body.prefix(1200), privacy: .public)")

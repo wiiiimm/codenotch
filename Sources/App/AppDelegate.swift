@@ -134,8 +134,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Settings changes it, because the fetch URLs live on the site.
             let miniMaxWeb = WebSessionProvider(site: Sites.minimax(region: preferences.minimaxRegion))
             self.miniMaxWeb = miniMaxWeb
-            let webProviders: [WebSessionProvider] = [deepSeek, qianwen]
-            fleet.signInItems = [deepSeek, miniMaxWeb, qianwen].map { provider in
+            let notion = WebSessionProvider(site: Sites.notion(workspaceID: preferences.notionWorkspaceID))
+            let webProviders: [WebSessionProvider] = [deepSeek, qianwen, notion]
+            fleet.signInItems = [deepSeek, miniMaxWeb, qianwen, notion].map { provider in
                 let name = provider.displayName
                 return (title: L10n.t("Sign in to \(name)…"),
                         action: { [weak provider] in provider?.presentSignIn() })
@@ -211,6 +212,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
             qianwen.onAuthenticated = { [weak store] in
                 store?.providerAuthenticationChanged(providerID: "qianwenai")
+            }
+            notion.onAuthenticated = { [weak store] in
+                store?.providerAuthenticationChanged(providerID: "notion")
             }
             miniMaxWeb.onAuthenticated = { [weak store] in
                 store?.providerAuthenticationChanged(providerID: "minimax")
@@ -503,6 +507,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             preferences.$deepSeekPricingSchedule
                 .receive(on: RunLoop.main)
                 .sink { [weak fleet] in fleet?.apply(deepSeekPricingSchedule: $0) }
+                .store(in: &cancellables)
+
+            preferences.$notionWorkspaceID
+                .dropFirst()
+                .removeDuplicates()
+                .receive(on: RunLoop.main)
+                .sink { [weak store] id in store?.updateNotionWorkspace(id) }
                 .store(in: &cancellables)
 
             preferences.$minimaxRegion

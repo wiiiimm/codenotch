@@ -479,6 +479,14 @@ final class UsageStore: ObservableObject {
         restart(provider) { provider.endpoint = endpoint }
     }
 
+    func updateNotionWorkspace(_ id: String) {
+        guard let provider = providers.first(where: { $0.id == "notion" }) as? WebSessionProvider else { return }
+        // A different workspace must never inherit a stale reading from the old one.
+        lastGood.removeValue(forKey: "notion")
+        archive.forget("notion")
+        restart(provider) { provider.apply(site: Sites.notion(workspaceID: id)) }
+    }
+
     func updateLMStudioEndpoint(_ endpoint: URL) {
         guard let provider = providers.first(where: { $0.id == LMStudioMetrics.providerID }) as? LMStudioLocalProvider,
               provider.endpoint != endpoint else { return }
@@ -577,6 +585,12 @@ final class UsageStore: ObservableObject {
     /// refresh updates the notch; the revision updates Settings' account row.
     func providerAuthenticationChanged(providerID: String) {
         providerAccountRevision &+= 1
+        if providerID == "notion" {
+            cancelRefresh(providerID: providerID)
+            lastGood.removeValue(forKey: providerID)
+            archive.forget(providerID)
+            snapshots.removeAll { $0.id == providerID }
+        }
         refresh(providerID: providerID)
     }
 

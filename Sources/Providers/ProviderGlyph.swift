@@ -33,6 +33,7 @@ enum ProviderGlyph: String, Codable, Equatable {
     case kiro
     case amp
     case apify
+    case notion
     case minimax
     case ollama
     case ollamaLocal = "ollama-local"
@@ -75,7 +76,7 @@ enum ProviderGlyph: String, Codable, Equatable {
         case .amp:    return 1.0
         // The asset's viewBox is cropped to the ink, so the mark fills its box
         // the way Claude's outline does and takes the same scale.
-        case .apify:  return 0.97
+        case .apify, .notion:  return 0.97
         case .minimax: return 0.95
         case .ollama: return 0.95
         case .third:  return 1.0
@@ -102,7 +103,7 @@ enum ProviderGlyph: String, Codable, Equatable {
         // glyph-kimi in the asset catalogue are drawn instead.
         case .glm:    return GlyphOutline.glm
         case .devin, .qwen, .gemma, .meta, .deepseek, .mistral, .lmstudio,
-             .qianwenAI, .amp, .apify: return []
+             .qianwenAI, .amp, .apify, .notion: return []
         case .grok:   return GlyphOutline.grok
         case .opencode: return GlyphOutline.opencode
         case .commandcode: return GlyphOutline.commandcode
