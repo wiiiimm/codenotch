@@ -143,7 +143,7 @@ struct ProviderSummary: Identifiable, Equatable {
     /// possible there — and "Allow access…" is the only way back from one.
     var usesKeychain: Bool {
         ClaudeProfile.isClaude(providerID: id) || id == AntigravityProfile.defaultID || id == "cursor"
-            || id == "apify"
+            || id == "apify" || id == "grok-bot"
     }
 
     let id: String
