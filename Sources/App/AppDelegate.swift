@@ -164,7 +164,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 CustomEndpointProvider(endpoint: endpoint)
             }
             let allProviders: [UsageProvider] = claudeProviders
-                + [CursorLocalProvider()]
+                + [CursorLocalProvider(), GrokBotProvider()]
                 + codexProfiles.map { CodexLocalProvider(profile: $0) }
                 + antigravityProfiles.map { AntigravityProvider(profile: $0) }
                 + [GLMProvider(), MiniMaxProvider(web: miniMaxWeb), GrokLocalProvider(), DevinLocalProvider(), OpenCodeProvider(),

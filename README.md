@@ -19,6 +19,11 @@ Hover a ring for its limit windows and when they reset. Claude's ring shows the
 same **current session** window Claude Code's own `/usage` leads with, so the
 two never disagree.
 
+## Grok Bot
+
+On macOS, enable **Grok Bot** in Settings → Accounts for a separate allowance
+dial using your Cursor login. See the [setup guide](docs/providers/grok-bot.md).
+
 ## Download
 
 [![Download for macOS](docs/design/download-macos.svg)](../../releases/latest/download/Codenotch.dmg)
